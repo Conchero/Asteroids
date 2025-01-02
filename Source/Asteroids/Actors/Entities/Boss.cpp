@@ -124,7 +124,7 @@ void ABoss::ResetEyeBeamMeshAndMaterial()
 void ABoss::SetEyeBeamActivated(bool _b)
 {
 	if (!b_dead)
-		eyeBeamActivated = _b;
+		b_eyeBeamActivated = _b;
 }
 
 int ABoss::CheckPlayerPresence()
@@ -218,7 +218,7 @@ void ABoss::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (!b_dead && eyeBeamActivated)
+	if (!b_dead && b_eyeBeamActivated)
 	{
 		TArray<AActor*> overlappingActor;
 		eyeBeamCollider->GetOverlappingActors(overlappingActor, ASpaceship::StaticClass());

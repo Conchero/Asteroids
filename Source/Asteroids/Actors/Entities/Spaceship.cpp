@@ -37,7 +37,7 @@ void ASpaceship::Revive()
 	{
 		score = 0;
 		b_canRevive = false;
-		timerToRevive = timerToRevive;
+		timerToRevive = timerToReviveValue;
 		b_dead = false;
 		GetHealthComponent()->AddLife(GetHealthComponent()->GetMaxHealth());
 		SetActorHiddenInGame(false);
@@ -72,6 +72,11 @@ void ASpaceship::OnHealthChange()
 void ASpaceship::OnCanTakeDamageRestored()
 {
 	spaceshipDynMaterial->SetScalarParameterValue("Opacity", 1);
+}
+
+void ASpaceship::SetGenerateBoxCollision(bool _b)
+{
+	boxCollider->SetGenerateOverlapEvents(true);
 }
 
 void ASpaceship::Tick(float DeltaTime)

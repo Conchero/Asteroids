@@ -43,7 +43,8 @@ protected:
 	TSubclassOf<class AAsteroidSplit> asteroidSplit;
 	UPROPERTY(EditAnywhere)
 	int nbSplit = 0;
-
+	UPROPERTY(EditAnywhere)
+	bool randNbSplit = true;
 	UPROPERTY(EditAnywhere)
 	class UDestroyWhenOutOfBounds* distanceComponent;
 

@@ -58,6 +58,7 @@ protected:
 	class ABossCannon* bossRightCannon;
 	class ABossCannon* bossLeftCannon;
 
+	bool b_eyeBeamActivated  =false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	class UBehaviorTreeComponent* behaviorTree;
@@ -67,8 +68,6 @@ protected:
 	class UStaticMeshComponent* eyeBeamMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	class UBoxComponent* eyeBeamCollider;
-
-	bool eyeBeamActivated = false;
 
 	class UMaterialInstanceDynamic* eyeBeamDynMaterial;
 	class UMaterialInstanceDynamic* eyeDynMaterial;

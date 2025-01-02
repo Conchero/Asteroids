@@ -6,6 +6,7 @@
 #include "Actors/Entities/Boss.h"
 #include "Actors/Arena.h"
 #include "Actors/Drops/RewardItem.h"
+#include "Actors/Entities/Spaceship.h"
 
 void AAsteroidGameMode::GoToNextRound()
 {
@@ -28,7 +29,7 @@ void AAsteroidGameMode::SetGamePlaying(bool _b)
 	else
 	{
 		b_bossFight = _b;
-		if (bossReference &&  UGameplayStatics::GetActorOfClass(GetWorld(), AArena::StaticClass()))
+		if (bossReference && UGameplayStatics::GetActorOfClass(GetWorld(), AArena::StaticClass()))
 		{
 			AArena* arena = Cast<AArena>(UGameplayStatics::GetActorOfClass(GetWorld(), AArena::StaticClass()));
 			if (arena)
@@ -43,13 +44,23 @@ void AAsteroidGameMode::ResetGame()
 {
 	currentRound = 1;
 	currentRewardIndex = 0;
-	b_bossFight =false;
+	b_bossFight = false;
 	b_win = false;
 	b_gamePlaying = true;
 
 	if (UGameplayStatics::GetActorOfClass(GetWorld(), ABoss::StaticClass()))
 	{
 		Cast<ABoss>(UGameplayStatics::GetActorOfClass(GetWorld(), ABoss::StaticClass()))->RemoveFromArena();
+	}
+}
+
+void AAsteroidGameMode::SetGameWin(bool _b)
+{
+	b_win = _b;
+	if (UGameplayStatics::GetActorOfClass(GetWorld(), ASpaceship::StaticClass()))
+	{
+		ASpaceship* player = Cast<ASpaceship>(UGameplayStatics::GetActorOfClass(GetWorld(), ASpaceship::StaticClass()));
+		player->SetGenerateBoxCollision(false);
 	}
 }
 

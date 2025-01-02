@@ -32,17 +32,26 @@ void AArena::BeginPlay()
 	//Ue scale in cm so x100
 	width = GetActorScale3D().X * 100;
 	height = GetActorScale3D().Y * 100;
+
+	//
+	RootComponent->SetRelativeScale3D(FVector(1, 1, 1));
 }
 
 void AArena::SpawnEnemyManagement(float _dt)
 {
 	timerBeforeSpawnEnemy -= _dt;
 
-	if (timerBeforeSpawnEnemy <= 0)
+	if (timerBeforeSpawnEnemy <= 0 && GetWorld()->GetAuthGameMode<AAsteroidGameMode>())
 	{
+		AAsteroidGameMode* gameMode = GetWorld()->GetAuthGameMode<AAsteroidGameMode>();
+
+		gameMode = GetWorld()->GetAuthGameMode<AAsteroidGameMode>();
+		float timerReducer = (gameMode->GetCurrentRound() / 10);
+		timerBeforeSpawnEnemy = FMath::RandRange(1.f - timerReducer, timerBeforeSpawnEnemyValue - timerReducer);
+
 		if (typeOfAsteroidArray.Num() > 0)
 		{
-			int asteroidIndex = FMath::RandRange(0, typeOfAsteroidArray.Num() - 1);
+			int asteroidIndex = FMath::RandRange(0, gameMode->GetCurrentRound() >= 3 ? typeOfAsteroidArray.Num() - 1 : (typeOfAsteroidArray.Num()/2) - 1);
 			if (asteroidIndex < typeOfAsteroidArray.Num() && typeOfAsteroidArray[asteroidIndex])
 			{
 
@@ -61,13 +70,7 @@ void AArena::SpawnEnemyManagement(float _dt)
 
 			}
 		}
-		if (GetWorld()->GetAuthGameMode<AAsteroidGameMode>())
-		{
-			AAsteroidGameMode* gameMode = GetWorld()->GetAuthGameMode<AAsteroidGameMode>();
-			float timerReducer = (gameMode->GetCurrentRound() / 10);
 
-			timerBeforeSpawnEnemy = FMath::RandRange(1.f - timerReducer, timerBeforeSpawnEnemyValue - timerReducer);
-		}
 	}
 }
 
@@ -93,8 +96,8 @@ void AArena::SpawnBoss(TSubclassOf<class ABoss> _b)
 		AActor* player = UGameplayStatics::GetActorOfClass(GetWorld(), ASpaceship::StaticClass());
 		if (player && !Cast<ASpaceship>(player)->GetIsDead())
 		{
-			FVector spawnLocation = FVector(GetActorLocation().X, GetActorLocation().Y - (GetArenaHeight()/2) + heightBossSpawn, player->GetActorLocation().Z);
-			GetWorld()->SpawnActor<ABoss>(_b,spawnLocation, FRotator::ZeroRotator);
+			FVector spawnLocation = FVector(GetActorLocation().X, GetActorLocation().Y - (GetArenaHeight() / 2) + heightBossSpawn, player->GetActorLocation().Z);
+			GetWorld()->SpawnActor<ABoss>(_b, spawnLocation, FRotator::ZeroRotator);
 		}
 	}
 }

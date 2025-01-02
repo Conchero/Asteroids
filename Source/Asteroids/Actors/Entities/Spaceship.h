@@ -39,6 +39,7 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	int GetScore() { return score; };
 
+	void SetGenerateBoxCollision(bool _b);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	class UShieldComponent* GetShieldComponent() { return shieldComponent; };

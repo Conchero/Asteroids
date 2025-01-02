@@ -33,7 +33,7 @@ public:
 	void ResetGame();
 	UFUNCTION(BlueprintCallable,BlueprintPure)
 	bool GetGameWin() {return b_win; };
-	void SetGameWin(bool _b) {b_win = _b; };
+	void SetGameWin(bool _b);
 protected:
 
 	void SpawnRewardItem();

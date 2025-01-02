@@ -39,13 +39,13 @@ void AAsteroidEnemy::Death()
 	Super::Death();
 	if (deathParticle)
 	{
-		UNiagaraComponent* particleComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(),deathParticle,GetActorLocation());
+		UNiagaraComponent* particleComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), deathParticle, GetActorLocation());
 	}
 
 	if (Cast<AAsteroidGameMode>(GetWorld()->GetAuthGameMode()))
 	{
 		AAsteroidGameMode* asteroidGameMode = Cast<AAsteroidGameMode>(GetWorld()->GetAuthGameMode());
-		if (FMath::RandRange(0, 100) > (dropChance + (asteroidGameMode->GetCurrentRound() * 10)))
+		if (FMath::RandRange(0, 100) < dropChance)
 		{
 			SortDropObject();
 		}
@@ -57,18 +57,19 @@ void AAsteroidEnemy::Death()
 void AAsteroidEnemy::AsteroidSplit(AAsteroidGameMode* _gm)
 {
 	//On Death spawn splits around the asteroid in a circle shape
-	int trueNbSplit =  FMath::RandRange(nbSplit, nbSplit+ (_gm->GetCurrentRound()/2));
+	int trueNbSplit = FMath::RandRange(nbSplit, randNbSplit ? nbSplit + (_gm->GetCurrentRound() / 2) : nbSplit+1);
 	for (int i = 1; i < trueNbSplit; i++)
 	{
 		FRotator randomRotator = FRotator(0, (int)(FMath::RandRange(0, 360)), 0);
+
 		if (UGameplayStatics::GetActorOfClass(GetWorld(), ASpaceship::StaticClass()))
 		{
 			AActor* spaceShip = UGameplayStatics::GetActorOfClass(GetWorld(), ASpaceship::StaticClass());
 			FRotator lookAtPlayer = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), spaceShip->GetActorLocation());
 			randomRotator += lookAtPlayer;
 		}
-		FVector pointsAroundCircle = UKismetMathLibrary::GetForwardVector(FRotator(0, (360 / trueNbSplit) * i, 0) + randomRotator);
 
+		FVector pointsAroundCircle = UKismetMathLibrary::GetForwardVector(FRotator(0, (360 / trueNbSplit) * i, 0) + randomRotator);
 		FVector dotPosition = (pointsAroundCircle * 50) + GetActorLocation();
 
 		if (asteroidSplit)
@@ -90,7 +91,6 @@ void AAsteroidEnemy::SortDropObject()
 	/*e.g: my asteroid have 40 % chance to drop something
 	the object dropped is defined by it's own drop chance
 	(for example health=25% and firerate upgrade = 75%)*/
-
 	if (dropObjectArray.Num() > 0)
 	{
 		TSubclassOf<ADrop> dropToSpawn = nullptr;
@@ -102,6 +102,7 @@ void AAsteroidEnemy::SortDropObject()
 			if (Cast<ADrop>(subClassDrop->GetDefaultObject()))
 			{
 				ADrop* dropObject = Cast<ADrop>(subClassDrop->GetDefaultObject());
+				//set pull scale e.g: health 0-25 fire upgrade 25-100 
 				TArray<int> dropChanceScale = { maximumValue,maximumValue + dropObject->GetDropChance() };
 				maximumValue += dropObject->GetDropChance();
 
@@ -115,7 +116,7 @@ void AAsteroidEnemy::SortDropObject()
 		{
 			for (auto& dropMap : dropPull)
 			{
-				if (randomNumber > dropMap.Value[0] && randomNumber < dropMap.Value[1])
+				if (randomNumber >= dropMap.Value[0] && randomNumber <= dropMap.Value[1])
 				{
 					dropToSpawn = dropMap.Key;
 				}
