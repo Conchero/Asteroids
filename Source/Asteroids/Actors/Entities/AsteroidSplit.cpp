@@ -13,15 +13,8 @@ void AAsteroidSplit::SetSpeedAndDirection()
 	}
 	else
 	{
+		// here to make sure it has a speed and direction
 		Super::SetSpeedAndDirection();
 	}
-
-
 }
 
-void AAsteroidSplit::BeginPlay()
-{
-	Super::BeginPlay();
-
-
-}

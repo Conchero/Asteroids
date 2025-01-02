@@ -19,9 +19,6 @@ void AAsteroidGameMode::GoToNextRound()
 	}
 }
 
-
-
-
 void AAsteroidGameMode::SetGamePlaying(bool _b)
 {
 	if (currentRound < maxRound)
@@ -91,5 +88,4 @@ void AAsteroidGameMode::Tick(float DeltaSeconds)
 			GoToNextRound();
 		}
 	}
-
 }

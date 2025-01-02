@@ -7,9 +7,3 @@ APlayerProjectile::APlayerProjectile()
 {
 	InitialLifeSpan = 3.f;
 }
-
-void APlayerProjectile::OnHit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	Super::OnHit(OverlappedComponent,OtherActor,OtherComp,OtherBodyIndex,bFromSweep,SweepResult);
-
-}

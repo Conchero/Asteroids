@@ -12,7 +12,8 @@ AEntity::AEntity()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	//RootComponent = CreateDefaultSubobject<USceneComponent>("Root Component");
-
+	
+	//root component was not accesible in blueprint so i had to do this
 	container = CreateDefaultSubobject<USceneComponent>("root_component");
 
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>("mesh");

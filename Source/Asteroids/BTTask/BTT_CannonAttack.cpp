@@ -55,9 +55,18 @@ void UBTT_CannonAttack::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 
 	if (myMemory->boss->GetRightCannon()->GetIsDead() && myMemory->boss->GetLeftCannon()->GetIsDead())
 	{
-		FinishLatentTask(OwnerComp,EBTNodeResult::Aborted);
+		if (myMemory->boss->GetRightCannon() && myMemory->boss->GetRightCannon()->GetShootComponent())
+			myMemory->boss->GetRightCannon()->GetShootComponent()->OnFire(false);
+		if (myMemory->boss->GetLeftCannon() && myMemory->boss->GetLeftCannon()->GetShootComponent())
+			myMemory->boss->GetLeftCannon()->GetShootComponent()->OnFire(false);
+
+		UBlackboardComponent* myBlackboard = OwnerComp.GetBlackboardComponent();
+		myBlackboard->SetValueAsEnum("BossState", 0);
+		FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 	}
 
+
+	//e.g three rounds of shot each lasting for a second 
 	if (myMemory->nbShot < maxNbShoot)
 	{
 
@@ -95,7 +104,7 @@ void UBTT_CannonAttack::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 			blackboardComponent->SetValueAsEnum("BossState", 0);
 		}
 		myMemory->boss->SetMoveCannon(true);
-		FinishLatentTask(OwnerComp,EBTNodeResult::Succeeded);
+		FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 	}
 
 }

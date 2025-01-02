@@ -60,10 +60,10 @@ void UBTT_WarnAttack::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMem
 
 	if (myMemory->boss)
 	{
-
+		//if killed while attacking abort task
 		if (myMemory->boss->GetIsDead())
 		{
-			FinishLatentTask(OwnerComp,EBTNodeResult::Aborted);
+			FinishLatentTask(OwnerComp,EBTNodeResult::Succeeded);
 		}
 		
 		if (myMemory->boss->GetEyeBeamMaterial()->K2_GetScalarParameterValue("Opacity") < maxOpacity)

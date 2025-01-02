@@ -8,11 +8,7 @@
 // Sets default values for this component's properties
 UShieldComponent::UShieldComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -55,8 +51,6 @@ void UShieldComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	shieldTimer= timerMaxValue;
-	// ...
-	
 }
 
 
@@ -64,6 +58,8 @@ void UShieldComponent::BeginPlay()
 void UShieldComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	//Activated cooldown 
 	if (b_shieldActivated)
 	{
 		shieldTimer -= DeltaTime;
@@ -74,6 +70,7 @@ void UShieldComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 		}
 	}
 
+	//shield reload management 
 	if (!b_shieldActivated)
 	{
 		if (shieldTimer < timerMaxValue)

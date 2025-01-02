@@ -16,14 +16,10 @@ class ASTEROIDS_API UBossShootComponent : public UShootComponent
 	
 
 	public:
-
 	virtual void OnFire(bool _b, int _direction = 0) override;
-
 	void SingleShoot();
 
-
 	protected: 
-	
 	UBossShootComponent();
 
 	UPROPERTY(EditAnywhere)

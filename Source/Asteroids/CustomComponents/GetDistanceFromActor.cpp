@@ -19,12 +19,10 @@ void UGetDistanceFromActor::BeginPlay()
 {
 	Super::BeginPlay();
 
-
 	if (GetOwner())
 	{
 		parentActor = GetOwner();
 	}
-	
 }
 
 
@@ -32,8 +30,6 @@ void UGetDistanceFromActor::BeginPlay()
 void UGetDistanceFromActor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	//CalculateDistanceFromActor();
-	// ...
 }
 
 // Called when the game starts

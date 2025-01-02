@@ -33,5 +33,4 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	float timerToAttackValue = 1.f;
-
 };

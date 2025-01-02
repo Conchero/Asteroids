@@ -23,6 +23,7 @@ void UDestroyWhenOutOfBounds::TickComponent(float DeltaTime, ELevelTick TickType
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	//if out of arena destroy
 	if (FMath::Abs(CalculateDistanceFromActor().X) > limits.X)
 	{
 		GetOwner()->Destroy();

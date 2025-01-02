@@ -14,7 +14,6 @@
 #include "../../../../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputComponent.h"
 #include "../../../../Plugins/EnhancedInput/Source/EnhancedInput/Public/InputActionValue.h"
 #include "Kismet/GameplayStatics.h"
-#include "../Projectiles/Asteroid.h"
 #include "EnemyEntity.h"
 #include "../../CustomComponents/ShieldComponent.h"
 #include "../Projectiles/Projectile.h"
@@ -36,6 +35,7 @@ void ASpaceship::Revive()
 {
 	if (b_canRevive == true)
 	{
+		score = 0;
 		b_canRevive = false;
 		timerToRevive = timerToRevive;
 		b_dead = false;
@@ -60,28 +60,25 @@ void ASpaceship::Death()
 void ASpaceship::OnHealthChange()
 {
 	SetUIHealth();
-
-	
 }
 
 void ASpaceship::OnCanTakeDamageRestored()
 {
 	spaceshipDynMaterial->SetScalarParameterValue("Opacity", 1);
-
 }
 
 void ASpaceship::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-
+	
 	if (!GetHealthComponent()->GetCanTakeDamage())
 	{
 		int moduloTimer = GetHealthComponent()->GetDamageCooldownTimer() *10;
-
 		spaceshipDynMaterial->SetScalarParameterValue("Opacity", moduloTimer%2);
 	}
 
+	// here so the "any key" event in bp don't trigger instantly
 	if ((b_dead == true || GetWorld()->GetAuthGameMode<AAsteroidGameMode>()->GetGameWin()) && b_canRevive == false)
 	{
 		timerToRevive -= DeltaTime;
@@ -108,20 +105,6 @@ void ASpaceship::SetupPlayerInputComponent(class UInputComponent* inputComponent
 	}
 }
 
-void ASpaceship::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	//if (Cast<AEnemyEntity>(OtherActor))
-	//{
-	//	AEnemyEntity* touchedEnemyEntity = Cast<AEnemyEntity>(OtherActor);
-	//	healthComponent->RemoveLife(touchedEnemyEntity->GetDamage());
-	//	shootComponent->SetFireRate(shootComponent->GetBaseFireRate());
-	//}
-
-	//if (Cast<AProjectile>(OtherActor) && !OtherActor->ActorHasTag("PlayerProjectile"))
-	//{
-	//	healthComponent->RemoveLife(Cast<AProjectile>(OtherActor)->GetDamage());
-	//}
-}
 
 void ASpaceship::Move(const FInputActionValue& Value)
 {
@@ -208,7 +191,6 @@ void ASpaceship::BeginPlay()
 		shieldComponent->SetHealthComponent(GetHealthComponent());
 	}
 
-	boxCollider->OnComponentBeginOverlap.AddDynamic(this, &ASpaceship::OnBeginOverlap);
 
 	if (tpComponent)
 	{

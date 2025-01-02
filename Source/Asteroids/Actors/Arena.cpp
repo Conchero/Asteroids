@@ -7,7 +7,6 @@
 #include "Engine/Engine.h"
 #include "../Actors/Entities/Entity.h"
 #include "../Actors/Entities/Boss.h"
-#include "../Actors/Projectiles/Asteroid.h"
 #include "Kismet/GameplayStatics.h"
 #include "Entities/Spaceship.h"
 #include "Kismet/KismetMathLibrary.h"

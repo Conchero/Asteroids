@@ -4,12 +4,12 @@
 
 #include "CoreMinimal.h"
 
-UENUM(BlueprintType)
-enum EBossShootPattern 
-{
-	RANDOM_ATTACK  ,
-	BASE_STILL_ATTACK,
-	BASE_MOVING_ATTACK,
-	SIDE_STILL_ATTACK ,
-	MEELEE_ATTACK ,
-};
+//UENUM(BlueprintType)
+//enum EBossShootPattern 
+//{
+//	RANDOM_ATTACK  ,
+//	BASE_STILL_ATTACK,
+//	BASE_MOVING_ATTACK,
+//	SIDE_STILL_ATTACK ,
+//	MEELEE_ATTACK ,
+//};

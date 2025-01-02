@@ -18,14 +18,9 @@ class ASTEROIDS_API AAsteroidSplit : public AAsteroidEnemy
 public:
 
  void SetParentActor( class AActor* _actor) { parentActor= _actor;};
-
- 
  virtual void SetSpeedAndDirection() override;
 
 protected:
+
 	class AActor* parentActor;
-
-
-	virtual void BeginPlay() override;
-
 };

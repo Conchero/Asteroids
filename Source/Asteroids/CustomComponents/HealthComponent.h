@@ -26,7 +26,6 @@ public:
 
 	void Death();
 
-
 	class AEntity* GetParentEntity() ;
 
 	bool GetCanTakeDamage(){return b_canTakeDamage;};
@@ -38,6 +37,7 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	void NoDamageCooldownManagement(float _dt);
 
 	class AEntity* parentEntity;
 
@@ -45,14 +45,13 @@ protected:
 	int maxHealth = 3;
 	int currentHealth = maxHealth;
 
-
+	//invunerability outside of on hit invunerability e.g:shield
 	bool b_haveInvunerability = false;
-
 	bool b_canTakeDamage = true;
+
 	UPROPERTY(EditAnywhere)
 	float noDamageCooldownValue = 1.f;
 	float noDamageCooldown = noDamageCooldownValue;
-	void NoDamageCooldownManagement(float _dt);
 
 
 public:

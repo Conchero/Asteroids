@@ -24,8 +24,8 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void SetUIGameOver(bool show);
 
-	UFUNCTION(BlueprintCallable,BlueprintPure)
-	bool GetIsDead() {return b_dead;};
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	bool GetIsDead() { return b_dead; };
 
 	UFUNCTION(BlueprintCallable)
 	void Revive();
@@ -35,41 +35,30 @@ public:
 	virtual void OnHealthChange() override;
 	virtual void OnCanTakeDamageRestored() override;
 
-	void SetScore(int _s) { score = _s;};
+	void SetScore(int _s) { score = _s; };
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	int GetScore() { return score; };
+
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-	int GetScore() {return score;};
+	class UShieldComponent* GetShieldComponent() { return shieldComponent; };
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	class UShootComponent* GetShootComponent() { return shootComponent; };
 
-
-	UFUNCTION(BlueprintCallable,BlueprintPure)
-	class UShieldComponent* GetShieldComponent() {return shieldComponent;};
-		UFUNCTION(BlueprintCallable, BlueprintPure)
-	class UShootComponent* GetShootComponent() {return shootComponent;};
-
+	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* inputComponent) override;
 
+	int score = 0;
 	UPROPERTY(EditAnywhere)
 	class UTeleportationComponent* tpComponent;
 	UPROPERTY(EditAnywhere)
 	class UShootComponent* shootComponent;
 
-	UFUNCTION()
-	void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
-	int score = 0;
-
 private:
-	
-	bool b_canRevive;
-	UPROPERTY(EditAnywhere)
-	float timerToReviveValue = 1;
-	float timerToRevive;
-
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* shieldMesh;
-
 	class UShieldComponent* shieldComponent;
 
 
@@ -80,8 +69,11 @@ private:
 	void ActivateShield();
 	void StopShield();
 
-	virtual void BeginPlay() override;
 
+	bool b_canRevive;
+	UPROPERTY(EditAnywhere)
+	float timerToReviveValue = 1;
+	float timerToRevive;
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputMappingContext* DefaultMappingContext;
@@ -89,9 +81,8 @@ private:
 	class UInputAction* MoveAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* ShootAction;
-		UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* ShieldAction;
 
 	class UMaterialInstanceDynamic* spaceshipDynMaterial;
-
 };

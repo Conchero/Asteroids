@@ -35,9 +35,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	class UHealthComponent* healthComponent;
-
 	class UStaticMeshComponent* shieldMeshToShow;
-
 
 	bool b_shieldActivated;
 	UPROPERTY(EditAnywhere)
@@ -45,7 +43,6 @@ protected:
 	float shieldTimer;
 
 	bool isAvailable = false;
-
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

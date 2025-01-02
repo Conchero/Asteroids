@@ -17,9 +17,7 @@ class ASTEROIDS_API UBTT_RandomAttack : public UBTTaskNode
 
 	UBTT_RandomAttack();
 
-
 	public: 
-
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
 };

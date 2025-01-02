@@ -31,6 +31,4 @@ protected:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
 	virtual uint16 GetInstanceMemorySize() const override;
-
-	virtual void InitializeFromAsset(UBehaviorTree& asset) override;
 };

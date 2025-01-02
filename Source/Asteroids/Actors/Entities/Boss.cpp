@@ -18,6 +18,7 @@ ABoss::ABoss()
 
 	eyeBeamMesh = CreateDefaultSubobject<UStaticMeshComponent>("Eye Beam");
 	eyeBeamMesh->SetupAttachment(container);
+
 	eyeBeamCollider = CreateDefaultSubobject<UBoxComponent>("eye beam collider");
 	eyeBeamCollider->SetupAttachment(container);
 
@@ -51,10 +52,8 @@ void ABoss::OnHealthChange()
 {
 	if (!b_dead)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Eye health %d"), GetHealthComponent()->GetHealth()));
 		eyeDynMaterial->SetVectorParameterValue("Color", FColor::Red);
 	}
-	
 }
 
 
@@ -64,7 +63,6 @@ void ABoss::OnCanTakeDamageRestored()
 	{
 	eyeDynMaterial->SetVectorParameterValue("Color", FColor::White);
 	}
-
 }
 
 void ABoss::BossKilled()
@@ -86,6 +84,8 @@ void ABoss::RemoveFromArena()
 
 TArray<int> ABoss::GetPartsAlive()
 {
+
+    //0=left cannon, 1=eye,2=right cannon
 	TArray<int> partsAlive;
 
 	if (!b_dead)
@@ -130,7 +130,6 @@ int ABoss::CheckPlayerPresence()
 		return 1;
 	}
 
-
 	if (bossRightCannon && !bossRightCannon->GetIsDead())
 	{
 		if (bossRightCannon->CheckPlayerCannonRaycast())
@@ -170,7 +169,6 @@ bool ABoss::CheckPlayerBossEyeRaycast()
 			{
 				return true;
 			}
-			DrawDebugLine(GetWorld(), lineStart, lineEnd, hitResult.bBlockingHit ? FColor::Red : FColor::Magenta, false, 1.0f);
 		}
 	}
 	return false;
@@ -180,7 +178,7 @@ void ABoss::BeginPlay()
 {
 	Super::BeginPlay();
 
-
+	//Spawn and Init cannon
 	if (UGameplayStatics::GetActorOfClass(GetWorld(), AArena::StaticClass()))
 	{
 		AArena* arena = Cast<AArena>(UGameplayStatics::GetActorOfClass(GetWorld(), AArena::StaticClass()));
@@ -190,17 +188,16 @@ void ABoss::BeginPlay()
 		TArray<int> rightCannonLimits = { (int)(GetActorLocation().X + eyeWidth) , arena->GetArenaWidth() / 2 - bossRightCannon->GetCannonWidth() };
 		bossRightCannon->SetLimits(rightCannonLimits);
 		bossRightCannon->SetBossParent(this);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("limit %d limit %d"), rightCannonLimits[0], rightCannonLimits[1]));
 
 		FVector leftCannonLocation = FVector(GetActorLocation().X - cannonDistanceFromEye, GetActorLocation().Y, GetActorLocation().Z);
 		bossLeftCannon = GetWorld()->SpawnActor<ABossCannon>(bossLeftCannonRef, leftCannonLocation, FRotator::ZeroRotator);
 		TArray<int> leftCannonLimits = { -(arena->GetArenaWidth() / 2) + bossLeftCannon->GetCannonWidth(), (int)(GetActorLocation().X - eyeWidth) };
 		bossLeftCannon->SetLimits(leftCannonLimits);
 		bossLeftCannon->SetBossParent(this);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("limit %d limit %d"), leftCannonLimits[0], leftCannonLimits[1]));
-
 	}
 
+
+	//Init eye related stuff
 	eyeDynMaterial = UMaterialInstanceDynamic::Create(mesh->GetMaterial(0), this);
 	mesh->SetMaterial(0, eyeDynMaterial);
 
@@ -215,10 +212,9 @@ void ABoss::BeginPlay()
 
 void ABoss::Tick(float DeltaTime)
 {
-
 	Super::Tick(DeltaTime);
 
-	if (eyeBeamActivated)
+	if (!b_dead && eyeBeamActivated)
 	{
 		TArray<AActor*> overlappingActor;
 		eyeBeamCollider->GetOverlappingActors(overlappingActor, ASpaceship::StaticClass());
@@ -233,5 +229,4 @@ void ABoss::Tick(float DeltaTime)
 			}
 		}
 	}
-
 }

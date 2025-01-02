@@ -23,6 +23,7 @@ EBTNodeResult::Type UBTT_RandomAttack::ExecuteTask(UBehaviorTreeComponent& Owner
 		return EBTNodeResult::Failed;
 	}
 
+	// while loading an attack chance to do a random attack
 	if (OwnerComp.GetAIOwner()->GetPawn<ABoss>())
 	{
 		ABoss* boss = OwnerComp.GetAIOwner()->GetPawn<ABoss>();
@@ -30,10 +31,10 @@ EBTNodeResult::Type UBTT_RandomAttack::ExecuteTask(UBehaviorTreeComponent& Owner
 
 		if (randomNumber < 1)
 		{
-			if (boss->GetRightCannon() && boss->GetRightCannon()->GetShootComponent())
+			if (boss->GetRightCannon())
 			boss->GetRightCannon()->SingleShoot();
 
-			if (boss->GetLeftCannon() && boss->GetLeftCannon()->GetShootComponent())
+			if (boss->GetLeftCannon())
 			boss->GetLeftCannon()->SingleShoot();
 		}
 

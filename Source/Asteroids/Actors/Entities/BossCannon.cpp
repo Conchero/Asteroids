@@ -10,9 +10,7 @@
 
 ABossCannon::ABossCannon()
 {
-
 	shootComponent = CreateDefaultSubobject<UBossShootComponent>("shootComponent");
-
 }
 
 void ABossCannon::Death()
@@ -31,16 +29,16 @@ void ABossCannon::Death()
 
 void ABossCannon::SingleShoot()
 {
+	//used for random attack to bypass firerate
 	if (!b_dead && shootComponent)
 	{
 		shootComponent->SingleShoot();
 	}
-
 }
-
 
 bool ABossCannon::CheckPlayerCannonRaycast()
 {
+	//raycast from each limits
 	if (!b_dead && translationLimits.Num() > 0)
 	{
 		FHitResult hitResult;
@@ -64,7 +62,6 @@ bool ABossCannon::CheckPlayerCannonRaycast()
 			{
 				return true;
 			}
-			DrawDebugLine(GetWorld(), lineStart, lineEnd, hitResult.bBlockingHit ? FColor::Red : FColor::Emerald, false, 1.0f);
 		}
 
 	}
@@ -89,7 +86,6 @@ void ABossCannon::OnCanTakeDamageRestored()
 
 void ABossCannon::Move(float _dt)
 {
-
 	if (!b_dead &&  translationLimits.Num() >= 2 && isMoving)
 	{
 		FVector2D newPosition = FVector2D(GetActorLocation().X + ((translationSpeed * _dt) * translationDirection), GetActorLocation().Y);
@@ -99,9 +95,7 @@ void ABossCannon::Move(float _dt)
 		{
 			translationDirection *= -1;
 		}
-
 	}
-
 }
 
 void ABossCannon::BeginPlay()
@@ -110,15 +104,9 @@ void ABossCannon::BeginPlay()
 
 	cannonDynMaterial = UMaterialInstanceDynamic::Create(mesh->GetMaterial(0), this);
 	mesh->SetMaterial(0, cannonDynMaterial);
-
-
-
 }
 
 void ABossCannon::Tick(float DeltaTime)
 {
-
 	Move(DeltaTime);
-
-
 }

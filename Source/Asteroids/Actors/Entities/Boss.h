@@ -32,7 +32,6 @@ public:
 	int CheckPlayerPresence();
 
 	class UStaticMeshComponent* GetEyeBeamMesh() {return eyeBeamMesh;};
-
 	class UMaterialInstanceDynamic* GetEyeBeamMaterial() {return eyeBeamDynMaterial;};
 
 	void SetMoveCannon(bool _b);
@@ -42,8 +41,9 @@ public:
 	TArray<int> GetPartsAlive();
 
 protected:
-
+	virtual void BeginPlay() override;
 	bool CheckPlayerBossEyeRaycast();
+	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere)
 	int eyeWidth = 100;
@@ -55,7 +55,6 @@ protected:
 	class ABossCannon* bossRightCannon;
 	class ABossCannon* bossLeftCannon;
 
-	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	class UBehaviorTreeComponent* behaviorTree;
@@ -72,7 +71,6 @@ protected:
 	class UMaterialInstanceDynamic* eyeDynMaterial;
 
 
-	virtual void Tick(float DeltaTime) override;
 private:
 	UPROPERTY(EditAnywhere)
 	int cannonDistanceFromEye = 200;

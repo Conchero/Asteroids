@@ -25,8 +25,6 @@ public:
 	int GetMinHeight() { return minHeight; };
 	int GetMaxHeight() {return maxHeight;};
 
-
-
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -35,10 +33,7 @@ protected:
 	int minWidth;
 	int maxHeight;
 	int minHeight;
-
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
 };

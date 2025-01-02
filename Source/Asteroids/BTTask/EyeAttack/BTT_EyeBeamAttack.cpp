@@ -26,6 +26,7 @@ EBTNodeResult::Type UBTT_EyeBeamAttack::ExecuteTask(UBehaviorTreeComponent& Owne
 		FBTEyeBeamAttack* myMemory = reinterpret_cast<FBTEyeBeamAttack*>(NodeMemory);
 		myMemory->boss = OwnerComp.GetAIOwner()->GetPawn<ABoss>();
 
+		//the quotient needed to match the value in a given time
 		myMemory->deltaProgress = myMemory->boss->GetEyeBeamMesh()->GetRelativeScale3D().X / timerToAttackValue;
 		myMemory->timerToAttack = timerToAttackValue;
 
@@ -56,15 +57,16 @@ void UBTT_EyeBeamAttack::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* Node
 
 
 	FBTEyeBeamAttack* myMemory = reinterpret_cast<FBTEyeBeamAttack*>(NodeMemory);
-	
+
+	//if killed while attacking abort task
 	if (myMemory->boss->GetIsDead())
 	{
-		FinishLatentTask(OwnerComp, EBTNodeResult::Aborted);
+		FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 	}
 
 	myMemory->timerToAttack -= DeltaSeconds;
-
-
+	
+	// grow on first half, shrink on second half
 	if (myMemory->timerToAttack > timerToAttackValue / 2)
 	{
 		FVector growScale = FVector(myMemory->boss->GetEyeBeamMesh()->GetRelativeScale3D().X + (myMemory->deltaProgress * DeltaSeconds), myMemory->boss->GetEyeBeamMesh()->GetRelativeScale3D().Y, myMemory->boss->GetEyeBeamMesh()->GetRelativeScale3D().Z);
@@ -81,7 +83,4 @@ void UBTT_EyeBeamAttack::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* Node
 	{
 		FinishLatentTask(OwnerComp,EBTNodeResult::Succeeded);
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, FString::Printf(TEXT("Timer %f"), myMemory->timerToAttack));
-	GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, FString::Printf(TEXT("grow Scale %s"), *myMemory->boss->GetEyeBeamMesh()->GetRelativeScale3D().ToString()));
-
 }

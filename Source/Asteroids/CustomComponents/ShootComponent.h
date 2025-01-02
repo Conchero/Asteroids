@@ -16,12 +16,8 @@ class ASTEROIDS_API UShootComponent : public UActorComponent
 public:	
 
 	virtual void OnFire(bool _b, int _direction = 0);
-
 	void SetNbShot(int _nb) {nbShot = _nb;};
-
 	int GetNbShot() {return nbShot;};
-
-	TSubclassOf<class AProjectile> GetProjectileSubClass() {return projectile;};
 
 protected:
 
@@ -29,16 +25,16 @@ protected:
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	virtual void FireManagement(float _dt);
+	virtual void Fire(float speed = -1);
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class AProjectile> projectile;
 
 
 	float baseFireRate = 0.5f;
-	
 	UPROPERTY(EditAnywhere)
 	float maxFireRate = 0.15f;
-
 
 	UPROPERTY(EditAnywhere)
 	float fireRateValue = 0.5f;
@@ -46,10 +42,8 @@ protected:
 	int shootDirection = 0;
 
 	int nbShot = 1;
-
 	bool b_firing = false;
-	virtual void FireManagement(float _dt);
-	virtual void Fire(float speed = -1);
+
 
 public:	
 	// Called every frame

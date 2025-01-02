@@ -17,7 +17,7 @@ UBTT_FinishAttack::UBTT_FinishAttack()
 
 EBTNodeResult::Type UBTT_FinishAttack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-
+	//Set eye values back to default 
 	if (!OwnerComp.GetAIOwner())
 	{
 		return EBTNodeResult::Failed;

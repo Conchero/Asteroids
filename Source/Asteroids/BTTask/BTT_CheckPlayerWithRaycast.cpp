@@ -13,8 +13,6 @@ UBTT_CheckPlayerWithRaycast::UBTT_CheckPlayerWithRaycast()
 	bNotifyTaskFinished = true;
 	bCreateNodeInstance = false;
 	NodeName = "Check Player";
-
-	//	BossState.AddEnumFilter(this,GET_MEMBER_NAME_CHECKED(UBTT_CheckPlayerWithRaycast, BossState),StaticEnum<EBossState>());
 }
 
 EBTNodeResult::Type UBTT_CheckPlayerWithRaycast::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
@@ -41,7 +39,7 @@ EBTNodeResult::Type UBTT_CheckPlayerWithRaycast::ExecuteTask(UBehaviorTreeCompon
 			int attackIndex = 0;
 			if (boss->CheckPlayerPresence() >= 0)
 			{
-				
+				//if player was in front of an alive part attacks depending on which part was returned
 				if (myMemory->checkResult.Num() < 3)
 				{
 					myMemory->checkResult.SetNum(3);
@@ -54,16 +52,11 @@ EBTNodeResult::Type UBTT_CheckPlayerWithRaycast::ExecuteTask(UBehaviorTreeCompon
 			}
 			else
 			{
+				//if player was not found do a random attack with the alive parts
 				if (boss->GetPartsAlive().Num() > 0)
 				{
-					for (int i = 0; i < boss->GetPartsAlive().Num(); i++)
-					{
-						GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("all parts alive %d"), boss->GetPartsAlive()[i]));
-					}
 					int randomIndex = FMath::RandRange(0, boss->GetPartsAlive().Num()-1);
-					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("rd index %d"), randomIndex));
 					attackIndex = boss->GetPartsAlive()[randomIndex];
-					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("attack index %d"), attackIndex+1));
 				}
 			}
 
@@ -83,15 +76,4 @@ EBTNodeResult::Type UBTT_CheckPlayerWithRaycast::ExecuteTask(UBehaviorTreeCompon
 uint16 UBTT_CheckPlayerWithRaycast::GetInstanceMemorySize() const
 {
 	return sizeof(FBTCheckPlayerNodeMemory);
-}
-
-void UBTT_CheckPlayerWithRaycast::InitializeFromAsset(UBehaviorTree& asset)
-{
-	Super::InitializeFromAsset(asset);
-
-	//UBlackboardData* BBAsset = GetBlackboardAsset();
-	//if (BBAsset)
-	//{
-	//	BossState.ResolveSelectedKey(*BBAsset);
-	//}
 }

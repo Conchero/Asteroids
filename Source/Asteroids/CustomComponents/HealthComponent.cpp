@@ -7,11 +7,8 @@
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+	PrimaryComponentTick.bCanEverTick = true;
 }
 
 
@@ -19,7 +16,6 @@ void UHealthComponent::RemoveLife(int _nb)
 {
 	if (b_canTakeDamage && !b_haveInvunerability)
 	{
-
 		currentHealth -= _nb;
 		b_canTakeDamage = false;
 
@@ -71,7 +67,6 @@ void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...	
 	currentHealth = maxHealth;
 	noDamageCooldown = noDamageCooldownValue;
 	if (Cast<AEntity>(GetOwner()))
@@ -81,10 +76,9 @@ void UHealthComponent::BeginPlay()
 
 }
 
-
+//Can't take damage after taking a hit for a certain period of time
 void UHealthComponent::NoDamageCooldownManagement(float _dt)
 {
-
 	if (!b_canTakeDamage)
 	{
 		noDamageCooldown -= _dt;
@@ -106,6 +100,5 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	NoDamageCooldownManagement(DeltaTime);
-	// ...
 }
 

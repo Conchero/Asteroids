@@ -17,12 +17,12 @@ class ASTEROIDS_API ABossCannon : public AEnemyEntity
 	ABossCannon();
 
 public:
-
-
-
 	virtual void Death() override;
 	virtual void OnCanTakeDamageRestored() override;
-	
+	virtual void OnHealthChange() override;
+
+	bool CheckPlayerCannonRaycast();
+
 	void SetTranslationSpeed(int _i) { translationSpeed = _i; };
 
 	void SetMovement(bool _b) { isMoving = _b; }
@@ -34,26 +34,19 @@ public:
 	void SingleShoot();
 
 	TArray<int> GetTranslationLimits() { return translationLimits; };
+	int GetCannonWidth() { return cannonWidth; };
+	class UBossShootComponent* GetShootComponent() { return shootComponent; };
 
 
-	bool CheckPlayerCannonRaycast();
-
-
-	int GetCannonWidth() {return cannonWidth;};
-
-	class UBossShootComponent* GetShootComponent() { return shootComponent;};
-
-
-	virtual void OnHealthChange() override;
 
 protected:
+	void Move(float _dt);
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 
 	class UMaterialInstanceDynamic* cannonDynMaterial;
 
-
 	class ABoss* bossParent;
-
-	void Move(float _dt);
 
 	UPROPERTY(EditAnywhere)
 	int translationSpeed = 300;
@@ -61,15 +54,10 @@ protected:
 	int translationDirection = 1;
 	bool isMoving = true;
 
-
 	TArray<int> translationLimits;
 
 	UPROPERTY(EditAnywhere)
 	class UBossShootComponent* shootComponent;
-
-	virtual void BeginPlay() override;
-
-	virtual void Tick(float DeltaTime) override;
 
 private:
 	UPROPERTY(EditAnywhere)

@@ -34,7 +34,6 @@ void AAsteroidEnemy::BeginPlay()
 
 void AAsteroidEnemy::Death()
 {
-
 	Super::Death();
 
 	if (Cast<AAsteroidGameMode>(GetWorld()->GetAuthGameMode()))
@@ -47,15 +46,13 @@ void AAsteroidEnemy::Death()
 		AsteroidSplit(asteroidGameMode);
 
 	}
-
-
-
 	Destroy();
 }
 
 void AAsteroidEnemy::AsteroidSplit(AAsteroidGameMode* _gm)
 {
-	int trueNbSplit =  FMath::RandRange(nbSplit, nbSplit+ _gm->GetCurrentRound());
+	//On Death spawn splits around the asteroid in a circle shape
+	int trueNbSplit =  FMath::RandRange(nbSplit, nbSplit+ (_gm->GetCurrentRound()/2));
 	for (int i = 1; i < trueNbSplit; i++)
 	{
 		FRotator randomRotator = FRotator(0, (int)(FMath::RandRange(0, 360)), 0);
@@ -83,9 +80,14 @@ void AAsteroidEnemy::AsteroidSplit(AAsteroidGameMode* _gm)
 
 void AAsteroidEnemy::SortDropObject()
 {
+
+	//Sort object with a drop pull 
+	/*e.g: my asteroid have 40 % chance to drop something
+	the object dropped is defined by it's own drop chance
+	(for example health=25% and firerate upgrade = 75%)*/
+
 	if (dropObjectArray.Num() > 0)
 	{
-
 		TSubclassOf<ADrop> dropToSpawn = nullptr;
 		TMap<TSubclassOf<ADrop>, TArray<int>> dropPull;
 		int maximumValue = 0;
@@ -120,9 +122,7 @@ void AAsteroidEnemy::SortDropObject()
 			FActorSpawnParameters spawnParameters = FActorSpawnParameters();
 			GetWorld()->SpawnActor<ADrop>(dropToSpawn, GetActorLocation(), FRotator::ZeroRotator, spawnParameters);
 		}
-
 	}
-
 }
 
 void AAsteroidEnemy::Tick(float DeltaTime)
@@ -134,7 +134,6 @@ void AAsteroidEnemy::Tick(float DeltaTime)
 
 void AAsteroidEnemy::SetSpeedAndDirection()
 {
-
 	if (distanceComponent->GetActorToTrack())
 	{
 		if (distanceComponent->CalculateDistanceFromActor().X * -1 > 0)

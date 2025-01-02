@@ -16,7 +16,6 @@ class ASTEROIDS_API AAsteroidGameMode : public AGameModeBase
 	
 
 public:
-	
 	UFUNCTION(BlueprintCallable,BlueprintPure)
 	int GetCurrentRound() {return currentRound;};
 	UFUNCTION(BlueprintCallable,BlueprintPure)
@@ -36,9 +35,13 @@ public:
 	bool GetGameWin() {return b_win; };
 	void SetGameWin(bool _b) {b_win = _b; };
 protected:
+
+	void SpawnRewardItem();
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+
 	UPROPERTY(EditAnywhere)
 	TArray<TSubclassOf<class ARewardItem>> rewardArray;
-
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class ABoss> bossReference;
 
@@ -51,13 +54,6 @@ protected:
 	UPROPERTY(EditAnywhere)
 	float roundTimerValue = 30;
 	float roundTimer;
-
-	void SpawnRewardItem();
-
-	virtual void BeginPlay() override;
-
-	virtual void Tick( float DeltaSeconds ) override;
-	
 
 	bool b_gamePlaying = true;
 	bool b_bossFight = false;

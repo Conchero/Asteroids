@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 
+//used in behavior tree
 UENUM(BlueprintType)
 enum class EBossState : uint8
 {

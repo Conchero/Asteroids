@@ -14,7 +14,6 @@ AProjectile::AProjectile()
 	// Use a sphere as a simple collision representation
 	boxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("boxCollider"));
 	boxCollider->BodyInstance.SetCollisionProfileName("Projectile");
-	boxCollider->OnComponentBeginOverlap.AddDynamic(this, &AProjectile::OnHit);		// set up a notification for when this component hits something blocking
 	
 	// Players can't walk on it
 	boxCollider->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Unwalkable, 0.f));
@@ -25,7 +24,7 @@ AProjectile::AProjectile()
 
 	// Use a ProjectileMovementComponent to govern this projectile's movement
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
-	ProjectileMovement->UpdatedComponent = CollisionComp;
+	ProjectileMovement->UpdatedComponent = boxCollider;
 	ProjectileMovement->InitialSpeed = 3000.f;
 	ProjectileMovement->MaxSpeed = 3000.f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
@@ -49,9 +48,4 @@ void AProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-}
-
-void AProjectile::OnHit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	
 }

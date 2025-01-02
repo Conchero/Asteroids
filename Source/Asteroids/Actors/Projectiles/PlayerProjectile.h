@@ -18,8 +18,4 @@ class ASTEROIDS_API APlayerProjectile : public AProjectile
 	APlayerProjectile();
 
 protected:
-
-	virtual void OnHit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
-
-
 };

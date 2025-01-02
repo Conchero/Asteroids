@@ -17,15 +17,9 @@ class ASTEROIDS_API AEnemyEntity : public AEntity
 public:
 
 	int GetScoreValue() { return scoreValue; };
-
 	int GetDamage() { return damage; };
 
 protected:
-
-	UPROPERTY(EditAnywhere)
-	int scoreValue = 100;
-	UPROPERTY(EditAnywhere)
-	int damage = 1;
 
 	virtual void Death() override;
 
@@ -34,4 +28,8 @@ protected:
 
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere)
+	int scoreValue = 100;
+	UPROPERTY(EditAnywhere)
+	int damage = 1;
 };

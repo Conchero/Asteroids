@@ -27,6 +27,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	void SpawnEnemyManagement(float _dt);
 
 	UPROPERTY(EditAnywhere)
 	int width;
@@ -41,18 +42,10 @@ protected:
 
 	float timerBeforeSpawnEnemyValue = 2.f;
 	float timerBeforeSpawnEnemy = timerBeforeSpawnEnemyValue;
-
-	void SpawnEnemyManagement(float _dt);
-
-
-
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 private:
-
 	UPROPERTY(EditInstanceOnly)
 	float heightBossSpawn = 100;
-
 };
