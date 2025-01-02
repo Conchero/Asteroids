@@ -35,6 +35,13 @@ protected:
 
 
 	UPROPERTY(EditAnywhere)
+	int lifePercentMovingBetweenShooting = 75;
+
+	
+	UPROPERTY(EditAnywhere)
+	int lifePercentMovingWhileShooting = 40;
+
+	UPROPERTY(EditAnywhere)
 	float timerToShootValue = 1.f;
 
 	UPROPERTY(EditAnywhere)

@@ -13,6 +13,8 @@
 #include "../Arena.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "../../AsteroidGameMode.h"
+#include "../../../../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraComponent.h"
+#include "../../../../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraFunctionLibrary.h"
 
 AAsteroidEnemy::AAsteroidEnemy()
 {
@@ -35,6 +37,10 @@ void AAsteroidEnemy::BeginPlay()
 void AAsteroidEnemy::Death()
 {
 	Super::Death();
+	if (deathParticle)
+	{
+		UNiagaraComponent* particleComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(),deathParticle,GetActorLocation());
+	}
 
 	if (Cast<AAsteroidGameMode>(GetWorld()->GetAuthGameMode()))
 	{
@@ -44,7 +50,6 @@ void AAsteroidEnemy::Death()
 			SortDropObject();
 		}
 		AsteroidSplit(asteroidGameMode);
-
 	}
 	Destroy();
 }

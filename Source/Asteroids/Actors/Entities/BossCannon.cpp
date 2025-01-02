@@ -20,7 +20,6 @@ void ABossCannon::Death()
 	b_dead = true;
 	SetMovement(false);
 
-
 	if (bossParent->GetPartsAlive().Num() == 0)
 	{
 		bossParent->BossKilled();
@@ -86,13 +85,21 @@ void ABossCannon::OnCanTakeDamageRestored()
 
 void ABossCannon::Move(float _dt)
 {
-	if (!b_dead &&  translationLimits.Num() >= 2 && isMoving)
+	if (!b_dead && translationLimits.Num() >= 2 && isMoving)
 	{
 		FVector2D newPosition = FVector2D(GetActorLocation().X + ((translationSpeed * _dt) * translationDirection), GetActorLocation().Y);
 		SetActorLocation(FVector(newPosition.X, newPosition.Y, GetActorLocation().Z));
 
-		if (GetActorLocation().X < translationLimits[0] || GetActorLocation().X > translationLimits[1])
+		if (GetActorLocation().X < translationLimits[0])
 		{
+			//set location so the cannon doesn't get stuck if a frame is missed
+			SetActorLocation(FVector(translationLimits[0], GetActorLocation().Y, GetActorLocation().Z));
+			translationDirection *= -1;
+		}
+		else if (GetActorLocation().X > translationLimits[1])
+		{
+			//set location so the cannon doesn't get stuck if a frame is missed
+			SetActorLocation(FVector(translationLimits[1], GetActorLocation().Y, GetActorLocation().Z));
 			translationDirection *= -1;
 		}
 	}

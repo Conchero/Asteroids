@@ -21,8 +21,6 @@ ABoss::ABoss()
 
 	eyeBeamCollider = CreateDefaultSubobject<UBoxComponent>("eye beam collider");
 	eyeBeamCollider->SetupAttachment(container);
-
-
 }
 
 
@@ -33,6 +31,14 @@ void ABoss::SetMoveCannon(bool _b)
 
 	if (bossLeftCannon)
 		bossLeftCannon->SetMovement(_b);
+}
+
+int ABoss::GetGlobalHealthPercent()
+{
+		//used to strengthen the fight depending on the boss health
+		float maxGlobalHealth = healthComponent->GetMaxHealth() + bossRightCannon->GetHealthComponent()->GetMaxHealth() + bossLeftCannon->GetHealthComponent()->GetMaxHealth();
+		float currentGlobalHealth = healthComponent->GetHealth() + bossRightCannon->GetHealthComponent()->GetHealth() + bossLeftCannon->GetHealthComponent()->GetHealth();
+		return (currentGlobalHealth / maxGlobalHealth) *100;
 }
 
 void ABoss::Death()
@@ -206,8 +212,6 @@ void ABoss::BeginPlay()
 	baseEyeBeamColor = eyeBeamDynMaterial->K2_GetVectorParameterValue("Color");
 	baseEyeBeamOpacity = eyeBeamDynMaterial->K2_GetScalarParameterValue("Opacity");
 	eyeBeamMesh->SetMaterial(0, eyeBeamDynMaterial);
-
-
 }
 
 void ABoss::Tick(float DeltaTime)

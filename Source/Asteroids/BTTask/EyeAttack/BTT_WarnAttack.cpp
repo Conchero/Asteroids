@@ -34,6 +34,9 @@ EBTNodeResult::Type UBTT_WarnAttack::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 			myMemory->boss->GetEyeBeamMaterial()->SetVectorParameterValue("Color", FColor::Red);
 			myMemory->boss->GetEyeBeamMesh()->SetHiddenInGame(false);
 
+			float clampedTrueTimerToWarn = FMath::Clamp(timerToWarn- (1 - (myMemory->boss->GetGlobalHealthPercent()/100)),timerToWarn/2,timerToWarn);
+
+			//quotient to reach given value in a certain time
 			myMemory->deltaProgress = maxOpacity / timerToWarn;
 
 			return EBTNodeResult::InProgress;

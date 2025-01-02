@@ -28,7 +28,7 @@ EBTNodeResult::Type UBTT_CheckPlayerWithRaycast::ExecuteTask(UBehaviorTreeCompon
 		FBTCheckPlayerNodeMemory* myMemory = reinterpret_cast<FBTCheckPlayerNodeMemory*>(NodeMemory);
 
 		ABoss* boss = OwnerComp.GetAIOwner()->GetPawn<ABoss>();
-		if (myMemory->nbCheck <= 20)
+		if (myMemory->nbCheck < boss->GetGlobalHealthPercent()/10)
 		{
 			myMemory->nbCheck++;
 			return EBTNodeResult::Succeeded;

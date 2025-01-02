@@ -59,6 +59,7 @@ protected:
 private:
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* shieldMesh;
+	UPROPERTY(EditAnywhere)
 	class UShieldComponent* shieldComponent;
 
 

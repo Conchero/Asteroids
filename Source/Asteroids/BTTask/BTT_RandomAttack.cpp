@@ -27,9 +27,9 @@ EBTNodeResult::Type UBTT_RandomAttack::ExecuteTask(UBehaviorTreeComponent& Owner
 	if (OwnerComp.GetAIOwner()->GetPawn<ABoss>())
 	{
 		ABoss* boss = OwnerComp.GetAIOwner()->GetPawn<ABoss>();
-		int randomNumber = FMath::RandRange(0, 4);
+		int randomNumber = FMath::RandRange(0, boss->GetGlobalHealthPercent()/10 );
 
-		if (randomNumber < 1)
+		if (randomNumber < 2)
 		{
 			if (boss->GetRightCannon())
 			boss->GetRightCannon()->SingleShoot();

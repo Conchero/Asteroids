@@ -45,6 +45,7 @@ void ASpaceship::Revive()
 		SetUIGameOver(false);
 		shieldComponent->ResetShield();
 		shootComponent->SetNbShot(1);
+		shootComponent->SetFireRate(shootComponent->GetBaseFireRate());
 		GetWorld()->GetAuthGameMode<AAsteroidGameMode>()->ResetGame();
 	}
 }
@@ -52,6 +53,7 @@ void ASpaceship::Revive()
 void ASpaceship::Death()
 {
 	b_dead = true;
+	shootComponent->OnFire(false);
 	SetActorHiddenInGame(true);
 	boxCollider->SetGenerateOverlapEvents(false);
 	SetUIGameOver(true);
@@ -60,6 +62,11 @@ void ASpaceship::Death()
 void ASpaceship::OnHealthChange()
 {
 	SetUIHealth();
+
+	if (!GetHealthComponent()->GetCanTakeDamage())
+	{
+		shootComponent->SetFireRate(shootComponent->GetBaseFireRate());
+	}
 }
 
 void ASpaceship::OnCanTakeDamageRestored()

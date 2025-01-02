@@ -33,6 +33,8 @@ EBTNodeResult::Type UBTT_CannonAttack::ExecuteTask(UBehaviorTreeComponent& Owner
 		myMemory->timerToShoot = timerToShootValue;
 		myMemory->nbShot = 0;
 		myMemory->timerBetweenRoundShot = timerBetweenShotRoundValue;
+
+		if (myMemory->boss->GetGlobalHealthPercent() > lifePercentMovingWhileShooting)
 		myMemory->boss->SetMoveCannon(false);
 
 
@@ -72,6 +74,11 @@ void UBTT_CannonAttack::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 
 		if (myMemory->timerToShoot > 0)
 		{
+			if (myMemory->boss->GetGlobalHealthPercent() < lifePercentMovingBetweenShooting && myMemory->boss->GetGlobalHealthPercent() > lifePercentMovingWhileShooting)
+			{
+				myMemory->boss->SetMoveCannon(false);
+			}
+
 			if (myMemory->boss->GetRightCannon() && myMemory->boss->GetRightCannon()->GetShootComponent())
 				myMemory->boss->GetRightCannon()->GetShootComponent()->OnFire(true);
 			if (myMemory->boss->GetLeftCannon() && myMemory->boss->GetLeftCannon()->GetShootComponent())
@@ -82,6 +89,11 @@ void UBTT_CannonAttack::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 		else if (myMemory->timerBetweenRoundShot > 0)
 		{
 			myMemory->timerBetweenRoundShot -= DeltaSeconds;
+
+			if (myMemory->boss->GetGlobalHealthPercent() < lifePercentMovingBetweenShooting)
+			{
+				myMemory->boss->SetMoveCannon(true);
+			}
 
 			if (myMemory->boss->GetRightCannon() && myMemory->boss->GetRightCannon()->GetShootComponent())
 				myMemory->boss->GetRightCannon()->GetShootComponent()->OnFire(false);

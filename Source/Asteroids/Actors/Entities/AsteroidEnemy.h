@@ -52,4 +52,7 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	TArray<TSubclassOf<class ADrop>> dropObjectArray;
+
+	UPROPERTY(EditDefaultsOnly)
+	class UNiagaraSystem* deathParticle;
 };

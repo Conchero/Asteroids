@@ -18,6 +18,9 @@ class ASTEROIDS_API ABoss : public AEnemyEntity
 	ABoss();
 
 public:
+
+	int GetGlobalHealthPercent();
+
 	virtual void Death() override;
 	virtual void OnHealthChange() override;
 	virtual void OnCanTakeDamageRestored() override;

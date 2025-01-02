@@ -39,7 +39,7 @@ protected:
 
 	bool b_shieldActivated;
 	UPROPERTY(EditAnywhere)
-	float timerMaxValue = 5.f;
+	float timerMaxValue = 3.f;
 	float shieldTimer;
 
 	bool isAvailable = false;
